@@ -1,9 +1,15 @@
-import './App.css';
+import './style.css';
+import Display from './display';
+import Break from './break';
+import Timer from './timer';
 
 function App() {
   return (
     <div className="App">
-      <h1>25 + 5 clock</h1>
+      <p className='title'>Pomodoro Clock</p>      
+      <Break />
+      <Timer />
+      <Display />
     </div>
   );
 }

@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geo&display=swap');
+$font-display: 'DotGothic16', sans-serif;
+$font-2: 'Geo', sans-serif;
+$bg-color: #37343B;
+$bg-color-2: #7D7C7E;
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: $bg-color;
+}
+.App{
+    width: 700px;
+    height: 450px;
+    border: 2px solid black;
+    border-radius: 16px;
+    background-color: $bg-color-2;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-areas:
+        'title title title title'
+        '. display display .'
+        '. display display .'
+        '. display display .'
+        'break break timer timer'
+        'break break timer timer'
+    ;
+    .title{
+        grid-area: title;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 40px;        
+        margin: 0;
+        font-family: $font-2;
+    }
+    .display{
+        grid-area: display;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        border-radius: 14px;
+        .display_screen{
+            height: 75%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;            
+            background-color: black;
+            border-radius: 14px;
+            color: red;            
+            font-family: $font-display;
+            #timer-label{
+                margin: 0;
+                font-size: 20px;
+            }
+            #time-left{
+                margin: 0;
+                font-size: 80px;
+            }
+        }
+        .display_controls{
+            height: 25%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            button{
+                margin: 0 10px 0 10px;
+            }
+        }
+    }
+    .break{
+        grid-area: break;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        font-family: $font-2;      
+        .break_title{
+            margin: 0;
+        }
+        .break_length{
+            margin: 0;
+        }
+    }
+    .timer{
+        grid-area: timer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        font-family: $font-2;
+        .timer_title{
+            margin: 0;
+        }
+        .timer_length{
+            margin: 0;
+        }
+    }
+}
