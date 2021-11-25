@@ -1,10 +1,14 @@
+//Fonts
 @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Geo&display=swap');
+
+//Variables
 $font-display: 'DotGothic16', sans-serif;
 $font-2: 'Geo', sans-serif;
 $bg-color: #37343B;
 $bg-color-2: #7D7C7E;
 
+//Styles
 body{
     display: flex;
     align-items: center;

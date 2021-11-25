@@ -1,11 +1,12 @@
 import './style.css';
 
-const Display = () => {
+const Display = ({timeFormat}) => {
+
     return(
         <div className='display'>
             <div className='display_screen'>
                 <p id='timer-label'>Session</p>
-                <p id='time-left'>25:00</p>
+                <p id='time-left'>{timeFormat}</p>
             </div>
             <div className='display_controls'>
                 <button id='start_stop' className='play_btn'>play</button>
