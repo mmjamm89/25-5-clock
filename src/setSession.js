@@ -1,6 +1,6 @@
 import './style.css';
 
-const Session = ({ title, incLength, decLength, type, time}) => {   
+const Session = ({ title, changeTime, type, time}) => {   
 
     return(
         <div className="timer">
@@ -10,16 +10,12 @@ const Session = ({ title, incLength, decLength, type, time}) => {
                 <button
                     id='session-decrement'
                     className='timer_add_btn'
-                    onClick={() => decLength(type)}
-                    >
-                    -
+                    onClick={() => changeTime(-1, type)}>-
                 </button>
                 <button
                     id='session-increment'
                     className='timer_sub_btn'
-                    onClick={() => incLength(type)}
-                    >
-                    +
+                    onClick={() => changeTime(1, type)}>+
                 </button>
             </div>
         </div>

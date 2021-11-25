@@ -9,6 +9,8 @@ function App() {
   const [minsDisplayed, setMinsDisplayed] = useState(25*60);
   const [breakLength, setBreakLength] = useState(5);
   const [sessionLength, setSessionLength] = useState(25);
+  const [timerOn, setTimerOn] = useState(false);
+  const [onBreak, setOnBreak] = useState(false);
 
     //Set the correct time format for the clock display
     const timeFormat = (time) => {
@@ -19,34 +21,50 @@ function App() {
         );
     };
     
-    //decrement break length
-    const decBreakLength = (type) => {
-      if(type === 'break' && breakLength <= 0){
-        return;
-      }else{
-        setBreakLength(breakLength - 1);
-      }
-    }
-    //increment break length
-    const incBreakLength = (type) => {
+    //Change break length, session length, and set the display time equal to the session length
+    const changeTime = (amount, type) => {
       if(type === 'break'){
-        setBreakLength(breakLength + 1);
+        if(breakLength <= 1 && amount < 0){
+          return;
+        }
+        setBreakLength(prev => prev + amount)
+      }else{
+        if(sessionLength <= 1 && amount < 0){
+          return;
+        }
+        setSessionLength(prev => prev + amount)
+        if(!timerOn){
+          setMinsDisplayed((sessionLength + amount)*60);
+        }
       }
     }
 
-    //set session length
-    const decSessionLength = (type) => {
-      if(type === 'session' && sessionLength <= 0){
-        return;
-      }else{
-        setSessionLength(sessionLength - 1);
+    //Control buttons
+    //play
+    const control = () => {
+      let second = 1000;
+      let date = new Date().getTime();
+      let nextDate = new Date().getTime() + second;
+      let onBreakVariable = onBreak;
+      if(!timerOn){
+        let interval = setInterval(() => {
+          date = new Date().getTime();
+          if(date > nextDate){
+            setMinsDisplayed(prev => prev - 1)
+            nextDate += second;
+          }          
+        }, 30)
+        localStorage.clear();
+        localStorage.setItem('interval-id', interval);
       }
+      setTimerOn(!timerOn);
     }
-    //increment session length
-    const incSessionLength = (type) => {
-      if(type === 'session'){
-        setSessionLength(sessionLength + 1);
-      }
+
+    //Reset
+    const reset = () => {
+      setMinsDisplayed(25*60);
+      setSessionLength(25);
+      setBreakLength(5);
     }
 
   return (
@@ -54,20 +72,20 @@ function App() {
       <p className='title'>Pomodoro Clock</p>      
       <Break
         title={'Break length'}        
-        decLength={decBreakLength}
-        incLength={incBreakLength}
+        changeTime={changeTime}
         type={'break'}
         time={breakLength}
         />
       <Session 
         title={'Session length'}
-        decLength={decSessionLength}
-        incLength={incSessionLength}
+        changeTime={changeTime}
         type={'session'}
         time={sessionLength}
         />
       <Display
         timeFormat={timeFormat(minsDisplayed)}
+        reset={reset}
+        control={control}
         />
     </div>
   );

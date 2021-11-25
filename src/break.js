@@ -1,6 +1,6 @@
 import './style.css';
 
-const Break = ({ title, decLength, incLength, type, time}) => {
+const Break = ({ title, changeTime, type, time}) => {
     return(
         <div className='break'>
             <h1 id='break-label' className='break_title'>{title}</h1>
@@ -9,14 +9,12 @@ const Break = ({ title, decLength, incLength, type, time}) => {
                 <button
                     id='break-decrement'
                     className='break_add_btn'
-                    onClick={() => decLength(type)}>
-                    -
+                    onClick={() => changeTime(-1, type)}>-
                 </button>
                 <button
                     id='break-increment'
                     className='break_sub_btn'
-                    onClick={() => incLength(type)}>
-                    +
+                    onClick={() => changeTime(1, type)}>+
                 </button>
             </div>
         </div>
