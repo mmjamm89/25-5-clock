@@ -11,6 +11,13 @@ function App() {
   const [sessionLength, setSessionLength] = useState(25);
   const [timerOn, setTimerOn] = useState(false);
   const [onBreak, setOnBreak] = useState(false);
+  const [breakAudio, setBreakAudio] = useState(new Audio('./alarm-sound.mp3'))
+
+    //play alarm sound at the end of session
+    const playBreakSound = () => {
+      breakAudio.currentTime = 0;
+      breakAudio.play();
+    }
 
     //Set the correct time format for the clock display
     const timeFormat = (time) => {
@@ -40,7 +47,7 @@ function App() {
     }
 
     //Control buttons
-    //play
+    //play-pause
     const control = () => {
       let second = 1000;
       let date = new Date().getTime();
@@ -50,12 +57,28 @@ function App() {
         let interval = setInterval(() => {
           date = new Date().getTime();
           if(date > nextDate){
-            setMinsDisplayed(prev => prev - 1)
+            setMinsDisplayed((prev) => {
+              if(prev >= 0 && !onBreakVariable){
+                playBreakSound();
+                onBreakVariable = true;
+                setOnBreak(true);
+                return breakLength;
+              }else if(prev <= 0 && onBreakVariable){
+                playBreakSound();
+                onBreakVariable = false;
+                setOnBreak(false);
+                return sessionLength;
+              }
+              return prev - 1;
+            })
             nextDate += second;
           }          
         }, 30)
         localStorage.clear();
         localStorage.setItem('interval-id', interval);
+      }
+      if(timerOn){
+        clearInterval(localStorage.getItem('interval-id'))
       }
       setTimerOn(!timerOn);
     }
@@ -66,6 +89,8 @@ function App() {
       setSessionLength(25);
       setBreakLength(5);
     }
+
+
 
   return (
     <div className="App">
