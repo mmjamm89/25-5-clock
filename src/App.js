@@ -6,19 +6,12 @@ import Session from './setSession';
 
 function App() {
 
-  const [minsDisplayed, setMinsDisplayed] = useState(25*60);
+  const [minsDisplayed, setMinsDisplayed] = useState(1*60);
   const [breakLength, setBreakLength] = useState(5);
   const [sessionLength, setSessionLength] = useState(25);
   const [timerOn, setTimerOn] = useState(false);
   const [onBreak, setOnBreak] = useState(false);
-  const [breakAudio, setBreakAudio] = useState(new Audio('./alarm-sound.mp3'))
-
-    //play alarm sound at the end of session
-    const playBreakSound = () => {
-      breakAudio.currentTime = 0;
-      breakAudio.play();
-    }
-
+  
     //Set the correct time format for the clock display
     const timeFormat = (time) => {
         let minutes = Math.floor(time / 60);
@@ -33,10 +26,14 @@ function App() {
       if(type === 'break'){
         if(breakLength <= 1 && amount < 0){
           return;
+        }else if(breakLength >= 60 && amount > 0){
+          return;
         }
-        setBreakLength(prev => prev + amount)
+        setBreakLength(prev => prev + amount)        
       }else{
         if(sessionLength <= 1 && amount < 0){
+          return;
+        }else if(sessionLength >= 60 && amount > 0){
           return;
         }
         setSessionLength(prev => prev + amount)
@@ -49,7 +46,7 @@ function App() {
     //Control buttons
     //play-pause
     const control = () => {
-      let second = 1000;
+      let second = 50;
       let date = new Date().getTime();
       let nextDate = new Date().getTime() + second;
       let onBreakVariable = onBreak;
@@ -58,13 +55,12 @@ function App() {
           date = new Date().getTime();
           if(date > nextDate){
             setMinsDisplayed((prev) => {
-              if(prev >= 0 && !onBreakVariable){
-                playBreakSound();
+              if(prev >= 0 && !onBreakVariable){                
                 onBreakVariable = true;
                 setOnBreak(true);
+                setMinsDisplayed(breakLength*60)
                 return breakLength;
-              }else if(prev <= 0 && onBreakVariable){
-                playBreakSound();
+              }else if(prev <= 0 && onBreakVariable){    
                 onBreakVariable = false;
                 setOnBreak(false);
                 return sessionLength;
@@ -77,6 +73,8 @@ function App() {
         localStorage.clear();
         localStorage.setItem('interval-id', interval);
       }
+
+      //pause timer
       if(timerOn){
         clearInterval(localStorage.getItem('interval-id'))
       }
@@ -84,14 +82,26 @@ function App() {
     }
 
     //Reset
-    const reset = () => {
+    const reset = () => {      
+      if(!timerOn){
+        let interval = setInterval(() => {          
+        }, 30)
+        localStorage.clear();
+        localStorage.setItem('interval-id', interval);
+      }
+      //pause timer
+      if(timerOn){
+        clearInterval(localStorage.getItem('interval-id'))
+      }
       setMinsDisplayed(25*60);
       setSessionLength(25);
       setBreakLength(5);
-    }
+      setTimerOn(false);
+      setOnBreak(false);      
+     }
 
-
-
+     const timerLabel = () => onBreak ? "Break" : "Session"
+    
   return (
     <div className="App">
       <p className='title'>Pomodoro Clock</p>      
@@ -110,7 +120,8 @@ function App() {
       <Display
         timeFormat={timeFormat(minsDisplayed)}
         reset={reset}
-        control={control}
+        control={control}       
+        timerLabel={timerLabel()}
         />
     </div>
   );

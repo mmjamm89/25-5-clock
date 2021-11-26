@@ -1,11 +1,11 @@
 import './style.css';
 
-const Display = ({ timeFormat, reset, control }) => {
+const Display = ({ timeFormat, reset, control, timerLabel }) => {
 
     return(
         <div className='display'>
             <div className='display_screen'>
-                <p id='timer-label'>Session</p>
+                <p id='timer-label'>{timerLabel}</p>
                 <p id='time-left'>{timeFormat}</p>
             </div>
             <div className='display_controls'>
@@ -13,10 +13,7 @@ const Display = ({ timeFormat, reset, control }) => {
                     id='start_stop'
                     className='play_btn'
                     onClick={control}>play
-                </button>
-                <button
-                    className='pause_btn'>pause
-                </button>
+                </button>                
                 <button
                     id='reset'
                     className='reset_btn'
