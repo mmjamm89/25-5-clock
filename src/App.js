@@ -46,7 +46,7 @@ function App() {
     //Control buttons
     //play-pause
     const control = () => {
-      let second = 50;
+      let second = 1000;
       let date = new Date().getTime();
       let nextDate = new Date().getTime() + second;
       let onBreakVariable = onBreak;
@@ -55,7 +55,7 @@ function App() {
           date = new Date().getTime();
           if(date > nextDate){
             setMinsDisplayed((prev) => {
-              if(prev >= 0 && !onBreakVariable){                
+              if(prev <= 0 && !onBreakVariable){                
                 onBreakVariable = true;
                 setOnBreak(true);
                 setMinsDisplayed(breakLength*60)
@@ -69,7 +69,7 @@ function App() {
             })
             nextDate += second;
           }          
-        }, 30)
+        }, 100)
         localStorage.clear();
         localStorage.setItem('interval-id', interval);
       }

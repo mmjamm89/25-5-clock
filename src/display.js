@@ -12,7 +12,7 @@ const Display = ({ timeFormat, reset, control, timerLabel }) => {
                 <button
                     id='start_stop'
                     className='play_btn'
-                    onClick={control}>play
+                    onClick={control}>play/pause
                 </button>                
                 <button
                     id='reset'
