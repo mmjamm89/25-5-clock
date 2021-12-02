@@ -6,7 +6,7 @@ const Display = ({ timeFormat, reset, control, timerLabel }) => {
         <div className='display'>
             <div className='display_screen'>
                 <p id='timer-label'>{timerLabel}</p>
-                <p id='time-left'>{timeFormat}</p>
+                <p id="time-left">{timeFormat}</p>
             </div>
             <div className='display_controls'>
                 <button
@@ -19,8 +19,7 @@ const Display = ({ timeFormat, reset, control, timerLabel }) => {
                     className='reset_btn'
                     onClick={reset}>reset
                 </button>
-            </div>
-            
+            </div>            
         </div>
     )
 }
